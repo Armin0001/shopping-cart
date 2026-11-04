@@ -1,0 +1,149 @@
+@import "tailwindcss";
+@import "lenis/dist/lenis.css";
+
+@theme inline {
+  --font-sans: var(--font-bricolage);
+  --font-serif: var(--font-instrument);
+  --font-mono: var(--font-geist-mono);
+}
+
+@theme {
+  --color-paper: #f2efe8;
+  --color-paper-2: #e9e5dc;
+  --color-ink: #141414;
+  --color-ink-soft: #4a4844;
+  --color-acid: #d9ff42;
+  --color-signal: #ff4f1f;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-marquee: marquee var(--marquee-speed, 28s) linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+    50% { transform: translateY(-10px) rotate(calc(var(--r, 0deg) + 2deg)); }
+  }
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  overflow-anchor: none; /* ScrollAnchor handles this, in sync with Lenis */
+  background: var(--color-paper);
+  color: var(--color-ink);
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-ink) transparent;
+}
+
+body {
+  background: var(--color-paper);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-acid);
+  color: var(--color-ink);
+}
+
+html.scroll-locked {
+  overflow: hidden;
+}
+
+/* Custom cursor: only for real mice, and never over text fields. */
+@media (pointer: fine) {
+  html.has-cursor,
+  html.has-cursor * {
+    cursor: none !important;
+  }
+  html.has-cursor input,
+  html.has-cursor textarea {
+    cursor: text !important;
+  }
+}
+
+/* Product illustration paint. --c is a registered colour so swapping
+   variants cross-fades the tile and the drawing together. */
+@property --c {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #cccccc;
+}
+.glyph,
+.tile-bg { transition: --c 0.6s var(--ease-out-expo); }
+.gc { fill: var(--c); }
+.gs { fill: rgba(0, 0, 0, 0.16); }
+.gh { fill: rgba(255, 255, 255, 0.5); }
+.gk { fill: #151515; }
+.gw { fill: #fffdf8; }
+
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+.grain {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--color-ink);
+}
+
+.tile-bg {
+  background:
+    radial-gradient(120% 90% at 20% 10%, rgba(255, 255, 255, 0.55), transparent 55%),
+    color-mix(in oklab, var(--c) 30%, #f4f1ea);
+}
+
+.focus-ring:focus-visible,
+button:focus-visible,
+a:focus-visible,
+input[type="range"]:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+}
+.dual-range input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  pointer-events: none;
+}
+.dual-range input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  pointer-events: auto;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--color-paper);
+  border: 2.5px solid var(--color-ink);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+.dual-range input::-moz-range-thumb {
+  pointer-events: auto;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--color-paper);
+  border: 2.5px solid var(--color-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee { animation-duration: 120s; }
+  .animate-float { animation: none; }
+}
