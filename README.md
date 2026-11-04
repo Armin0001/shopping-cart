@@ -1,4 +1,4 @@
-# drift ✦ — a store that moves
+# drift ✦ 
 
 A preview shopping experience built with Next.js 16, Motion and Lenis. All 60 products, brands and reviews are made up, and checkout only prints a pretend receipt. No payment is ever taken.
 
