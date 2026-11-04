@@ -7,6 +7,10 @@ npm install
 npm run dev      # http://localhost:3000
 ```
 
+## Preview
+
+![When you run it](public/drift_page.png)
+
 ## How to drive it
 
 | Do this | What happens |
